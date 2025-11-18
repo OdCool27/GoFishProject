@@ -1,8 +1,8 @@
 public class Card {
     String rank;
-    SUITE suit;
+    SUIT suit;
 
-    public enum SUITE {Clubs, Diamonds, Hearts, Spades}
+    public enum SUIT {Clubs, Diamonds, Hearts, Spades}
 
     //Constructors
     public Card(){
@@ -10,7 +10,7 @@ public class Card {
         this.suit = null;
     }
 
-    public Card(String rank, SUITE suit) {
+    public Card(String rank, SUIT suit) {
         this.rank = rank;
         this.suit = suit;
     }
@@ -30,11 +30,11 @@ public class Card {
         this.rank = rank;
     }
 
-    public SUITE getSuit() {
+    public SUIT getSuit() {
         return suit;
     }
 
-    public void setSuit(SUITE suit) {
+    public void setSuit(SUIT suit) {
         this.suit = suit;
     }
 

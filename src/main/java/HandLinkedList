@@ -1,0 +1,266 @@
+public class HandLinkedList {
+    private CardNode head;
+    
+    // Default constructor
+    public HandLinkedList() {
+        head = null;
+    }
+    
+    // Primary constructor
+    public HandLinkedList(CardNode head) {
+        this.head = head;
+    }
+    
+    // Copy constructor
+    public HandLinkedList(HandLinkedList list) {
+        this.head = list.head;
+    }
+    
+    // Getter and Setter
+    public CardNode getHead() {
+        return head;
+    }
+    
+    public void setHead(CardNode head) {
+        this.head = head;
+    }
+    
+    /**
+     * Insert card at front of hand
+     * Time Complexity: O(1)
+     */
+    @SuppressWarnings("unused")
+    public void insertAtFront(Card dataToInsert) {
+        CardNode tempo;
+        tempo = new CardNode();
+        
+        if (tempo != null) {
+            tempo.setData(dataToInsert);
+            tempo.setNextNode(null);
+            
+            if (head == null) {
+                head = tempo;
+            } else {
+                tempo.setNextNode(head);
+                head = tempo;
+            }
+        } else {
+            System.err.println("Error. The list is full (out of memory)");
+        }
+    }
+    
+    /**
+     * Insert card at rear of hand
+     * Time Complexity: O(n)
+     */
+    @SuppressWarnings("unused")
+    public void insertAtRear(Card dataToInsert) {
+        CardNode tempo1;
+        CardNode tempo2;
+        
+        tempo1 = new CardNode();
+        
+        if (tempo1 != null) {
+            tempo1.setData(dataToInsert);
+            tempo1.setNextNode(null);
+            
+            if (head == null) {
+                head = tempo1;
+            } else {
+                tempo2 = head;
+                while (tempo2.getNextNode() != null) {
+                    tempo2 = tempo2.getNextNode();
+                }
+                tempo2.setNextNode(tempo1);
+            }
+        } else {
+            System.err.println("Error. The list is full (out of memory)");
+        }
+    }
+    
+    /**
+     * Count how many cards of a specific rank are in the hand
+     * Time Complexity: O(n)
+     */
+    public int countRank(String rank) {
+        int count = 0;
+        CardNode current = head;
+        
+        while (current != null) {
+            if (current.getData().getRank().equals(rank)) {
+                count++;
+            }
+            current = current.getNextNode();
+        }
+        
+        return count;
+    }
+    
+    /**
+     * Check if hand contains a card with specific rank
+     * Time Complexity: O(n)
+     */
+    public boolean hasRank(String rank) {
+        CardNode current = head;
+        
+        while (current != null) {
+            if (current.getData().getRank().equals(rank)) {
+                return true;
+            }
+            current = current.getNextNode();
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Remove and return all cards of a specific rank
+     * Time Complexity: O(n)
+     */
+    public Card[] removeAllOfRank(String rank) {
+        // First count how many cards we have
+        int count = countRank(rank);
+        if (count == 0) {
+            return new Card[0];
+        }
+        
+        Card[] cards = new Card[count];
+        int index = 0;
+        
+        CardNode current = head;
+        CardNode prev = null;
+        
+        while (current != null) {
+            if (current.getData().getRank().equals(rank)) {
+                cards[index++] = current.getData();
+                
+                // Remove this node
+                if (prev == null) {
+                    head = current.getNextNode();
+                } else {
+                    prev.setNextNode(current.getNextNode());
+                }
+                
+                current = current.getNextNode();
+            } else {
+                prev = current;
+                current = current.getNextNode();
+            }
+        }
+        
+        return cards;
+    }
+    
+    /**
+     * Remove exactly 2 cards of a specific rank (for forming books)
+     * Time Complexity: O(n)
+     */
+    public Card[] removePair(String rank) {
+        if (countRank(rank) < 2) {
+            return null;
+        }
+        
+        Card[] pair = new Card[2];
+        int removed = 0;
+        
+        CardNode current = head;
+        CardNode prev = null;
+        
+        while (current != null && removed < 2) {
+            if (current.getData().getRank().equals(rank)) {
+                pair[removed++] = current.getData();
+                
+                // Remove this node
+                if (prev == null) {
+                    head = current.getNextNode();
+                } else {
+                    prev.setNextNode(current.getNextNode());
+                }
+                
+                current = current.getNextNode();
+            } else {
+                prev = current;
+                current = current.getNextNode();
+            }
+        }
+        
+        return pair;
+    }
+    
+    /**
+     * Get the size of the hand
+     * Time Complexity: O(n)
+     */
+    public int size() {
+        int count = 0;
+        CardNode current = head;
+        
+        while (current != null) {
+            count++;
+            current = current.getNextNode();
+        }
+        
+        return count;
+    }
+    
+    /**
+     * Check if hand is empty
+     * Time Complexity: O(1)
+     */
+    public boolean isEmpty() {
+        return head == null;
+    }
+    
+    /**
+     * Display all cards in the hand
+     * Time Complexity: O(n)
+     */
+    public void display() {
+        CardNode current = head;
+        int count = 1;
+        
+        while (current != null) {
+            System.out.println("  " + count + ". " + current.getData());
+            current = current.getNextNode();
+            count++;
+        }
+    }
+    
+    /**
+     * Get all unique ranks in the hand
+     * Time Complexity: O(n²)
+     */
+    public String[] getUniqueRanks() {
+        if (isEmpty()) {
+            return new String[0];
+        }
+        
+        int listSize = size();
+        String[] temp = new String[listSize];
+        int uniqueCount = 0;
+        
+        CardNode current = head;
+        while (current != null) {
+            String rank = current.getData().getRank();
+            boolean found = false;
+            
+            for (int i = 0; i < uniqueCount; i++) {
+                if (temp[i].equals(rank)) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                temp[uniqueCount++] = rank;
+            }
+            
+            current = current.getNextNode();
+        }
+        
+        // Create exact-size array
+        String[] result = new String[uniqueCount];
+        System.arraycopy(temp, 0, result, 0, uniqueCount);
+        return result;
+    }
+}

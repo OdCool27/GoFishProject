@@ -1,0 +1,27 @@
+Go Fish — Rules (Person 5 Variant)
+
+Deck and Deal:
+- Standard 52-card deck.
+- 2 players: deal 7 cards each.
+- 3–4 players: deal 5 cards each.
+
+Turn:
+- Ask a specific opponent for all cards of a rank you hold.
+- If they have any, they must give them and you take another turn.
+- If not, say "Go fish" and draw the top card from the deck.
+  - If drawn card matches asked rank, you continue; otherwise turn ends.
+
+Books:
+- Collect all four cards of a rank -> a book (1 point).
+- Remove those four from the hand and place in score pile.
+
+Empty Hands:
+- If a player's hand becomes empty and the deck still has cards, draw up to 4 cards (or as many as remain).
+
+AI Behavior:
+- AI selects a random rank uniformly from the ranks it currently holds.
+- AI chooses opponents externally (not part of this simplified module).
+
+Edge cases:
+- Drawing from an empty deck returns no card (no effect).
+- Game ends when all 13 books are formed or when deck and all hands are empty.
